@@ -11,8 +11,7 @@ from django.contrib.auth import authenticate, login, logout
 def home_page(request):
     # select * from tasks
     categories = ['starter', 'main', 'dessert', 'drink']
-    menu = {category: Dish.objects.filter(category=category) for category in categories}
-    # 
+    menu = {category: Dish.objects.filter(category=category) for category in categories} 
     return render(request, 'home.html', {'menu': menu})
 
 def about_page(request):
@@ -99,3 +98,7 @@ def order_page(request):
             return HttpResponse('All fields are required!')
 
         return redirect('order_success')
+    
+def detail_dish(request, dish_id):
+    dish = Dish.objects.get(id=dish_id)
+    return render(request, 'dish_detail.html', {'dish': dish})

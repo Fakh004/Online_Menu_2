@@ -12,4 +12,5 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path("order/", order_page, name="order_name"),
     path("api/", include("online_menu.urls")),
+    path('dish/<int:dish_id>/', detail_dish, name='detail_dish'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

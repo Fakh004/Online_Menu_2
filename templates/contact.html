@@ -1,29 +1,683 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block main %}
-    <div class="card shadow-sm">
-        <h3 style="margin-top: 150px;">Contact Us</h3>
-        <div class="card-body" >
-            <form method="post" action="{% url 'contact_name' %}">
-                {% csrf_token %}
-                
-                <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" id="name" name="name" class="form-control" required>
+<div class="contact-page">
+    <!-- Hero Section -->
+    <section class="contact-hero py-5 mb-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h1 class="display-4 fw-bold mb-4">
+                            Свяжитесь с
+                            <span class="text-danger">нами</span>
+                        </h1>
+                        <p class="lead mb-4">
+                            Мы всегда рады услышать ваши вопросы, отзывы и предложения. 
+                            Наша команда готова помочь вам в любое время.
+                        </p>
+                        <div class="contact-stats d-flex gap-4">
+                            <div>
+                                <div class="stat-number text-danger fw-bold">24/7</div>
+                                <div class="stat-label">Поддержка</div>
+                            </div>
+                            <div>
+                                <div class="stat-number text-danger fw-bold">15 мин</div>
+                                <div class="stat-label">Среднее время ответа</div>
+                            </div>
+                            <div>
+                                <div class="stat-number text-danger fw-bold">100%</div>
+                                <div class="stat-label">Удовлетворенность</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" id="email" name="email" class="form-control" required>
+                <div class="col-lg-6">
+                    <div class="hero-image text-center">
+                        <img src="/" 
+                             class="img-fluid rounded-4 shadow-lg" 
+                             alt="Contact Us">
+                    </div>
                 </div>
-                
-                <div class="mb-3">
-                    <label for="message" class="form-label">Message</label>
-                    <textarea id="message" name="message" class="form-control" rows="4" required></textarea>
-                </div>
-                
-                <button type="submit" class="btn btn-primary w-100">Send Message</button>
-            </form>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Contact Form & Info -->
+    <section class="contact-form-section py-5">
+        <div class="container">
+            <div class="row g-5">
+                <!-- Contact Form -->
+                <div class="col-lg-7">
+                    <div class="contact-form-card p-4 p-lg-5 rounded-4 shadow-lg">
+                        <div class="text-center mb-5">
+                            <h2 class="fw-bold mb-3">Отправьте нам сообщение</h2>
+                            <p class="text-muted">Заполните форму ниже и мы свяжемся с вами в ближайшее время</p>
+                        </div>
+
+                        <form method="post" action="{% url 'contact_name' %}" id="contactForm">
+                            {% csrf_token %}
+                            
+                            <!-- Success/Error Messages -->
+                            {% if messages %}
+                            <div class="messages mb-4">
+                                {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" 
+                                               class="form-control" 
+                                               id="name" 
+                                               name="name" 
+                                               placeholder="Ваше имя"
+                                               required>
+                                        <label for="name">
+                                            <i class="bi bi-person me-2"></i>Ваше имя
+                                        </label>
+                                    </div>
+                                    <div class="form-error" id="nameError"></div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="email" 
+                                               class="form-control" 
+                                               id="email" 
+                                               name="email" 
+                                               placeholder="Ваш email"
+                                               required>
+                                        <label for="email">
+                                            <i class="bi bi-envelope me-2"></i>Ваш email
+                                        </label>
+                                    </div>
+                                    <div class="form-error" id="emailError"></div>
+                                </div>
+                            </div>
+
+                            <div class="mt-3">
+                                <div class="form-floating">
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="subject" 
+                                           name="subject" 
+                                           placeholder="Тема сообщения"
+                                           required>
+                                    <label for="subject">
+                                        <i class="bi bi-chat-left-text me-2"></i>Тема сообщения
+                                    </label>
+                                </div>
+                                <div class="form-error" id="subjectError"></div>
+                            </div>
+
+                            <div class="mt-3">
+                                <div class="form-floating">
+                                    <textarea class="form-control" 
+                                              id="message" 
+                                              name="message" 
+                                              placeholder="Ваше сообщение"
+                                              style="height: 150px"
+                                              required></textarea>
+                                    <label for="message">
+                                        <i class="bi bi-pencil me-2"></i>Ваше сообщение
+                                    </label>
+                                </div>
+                                <div class="form-error" id="messageError"></div>
+                                <div class="text-end mt-2">
+                                    <span class="text-muted small" id="charCount">0/500 символов</span>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" 
+                                           type="checkbox" 
+                                           id="newsletter" 
+                                           name="newsletter">
+                                    <label class="form-check-label" for="newsletter">
+                                        Подписаться на рассылку новостей и специальных предложений
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="mt-5">
+                                <button type="submit" class="btn btn-danger btn-lg w-100 py-3" id="submitBtn">
+                                    <span class="submit-text">
+                                        <i class="bi bi-send me-2"></i>Отправить сообщение
+                                    </span>
+                                    <span class="spinner-border spinner-border-sm d-none" 
+                                          role="status" 
+                                          aria-hidden="true"></span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="col-lg-5">
+                    <div class="contact-info">
+                        <!-- Info Cards -->
+                        <div class="info-card mb-4 p-4 rounded-4 shadow-sm bg-light">
+                            <div class="d-flex align-items-start">
+                                <div class="info-icon me-3">
+                                    <i class="bi bi-geo-alt text-danger fs-3"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-2">Наш адрес</h5>
+                                    <p class="text-muted mb-2">ул. Ресторанная, 123</p>
+                                    <p class="text-muted mb-0">Душанбе, Таджикистан</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-card mb-4 p-4 rounded-4 shadow-sm bg-light">
+                            <div class="d-flex align-items-start">
+                                <div class="info-icon me-3">
+                                    <i class="bi bi-telephone text-danger fs-3"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-2">Телефоны</h5>
+                                    <p class="text-muted mb-1">
+                                        <a href="tel:+992123456789" class="text-decoration-none text-dark">
+                                            +992 123 456 789
+                                        </a>
+                                    </p>
+                                    <p class="text-muted mb-0">
+                                        <a href="tel:+992987654321" class="text-decoration-none text-dark">
+                                            +992 987 654 321
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-card mb-4 p-4 rounded-4 shadow-sm bg-light">
+                            <div class="d-flex align-items-start">
+                                <div class="info-icon me-3">
+                                    <i class="bi bi-envelope text-danger fs-3"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-2">Email</h5>
+                                    <p class="text-muted mb-1">
+                                        <a href="mailto:info@cafefakh.com" class="text-decoration-none text-dark">
+                                            info@cafefakh.com
+                                        </a>
+                                    </p>
+                                    <p class="text-muted mb-0">
+                                        <a href="mailto:support@cafefakh.com" class="text-decoration-none text-dark">
+                                            support@cafefakh.com
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Working Hours -->
+                        <div class="hours-card p-4 rounded-4 shadow-sm bg-dark text-white">
+                            <h5 class="fw-bold mb-3 text-white">Часы работы</h5>
+                            <div class="hours-list">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Пн - Чт</span>
+                                    <span class="fw-bold">9:00 - 23:00</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Пт - Сб</span>
+                                    <span class="fw-bold">9:00 - 00:00</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-0">
+                                    <span>Воскресенье</span>
+                                    <span class="fw-bold">10:00 - 22:00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Social Media -->
+                        <div class="social-card mt-4 p-4 rounded-4 shadow-sm">
+                            <h5 class="fw-bold mb-3">Мы в соцсетях</h5>
+                            <div class="social-icons d-flex gap-3">
+                                <a href="#" class="social-icon facebook">
+                                    <i class="bi bi-facebook"></i>
+                                </a>
+                                <a href="#" class="social-icon instagram">
+                                    <i class="bi bi-instagram"></i>
+                                </a>
+                                <a href="#" class="social-icon telegram">
+                                    <i class="bi bi-telegram"></i>
+                                </a>
+                                <a href="#" class="social-icon whatsapp">
+                                    <i class="bi bi-whatsapp"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold mb-3">Как нас найти</h2>
+                <p class="text-muted">Посетите наше кафе в самом центре города</p>
+            </div>
+            
+            <div class="map-container rounded-4 shadow-lg overflow-hidden">
+                <!-- Google Maps Placeholder -->
+                <div class="map-placeholder bg-secondary position-relative" style="height: 400px;">
+                    <div class="position-absolute top-50 start-50 translate-middle text-center">
+                        <i class="bi bi-map text-white display-1 mb-3"></i>
+                        <h4 class="text-white">Карта расположения</h4>
+                        <p class="text-white-50">38.5739° N, 68.7739° E</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold mb-3">Часто задаваемые вопросы</h2>
+                <p class="text-muted">Ответы на популярные вопросы</p>
+            </div>
+            
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            Как забронировать столик?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Вы можете забронировать столик по телефону, через социальные сети или 
+                            заполнив форму на нашем сайте. Рекомендуем бронировать заранее, 
+                            особенно в выходные дни.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            Есть ли у вас доставка?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Да, мы осуществляем доставку по всему городу. Минимальная сумма заказа 
+                            для доставки — 100 TJS. Среднее время доставки — 45 минут.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            Можно ли оплатить картой?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Да, мы принимаем все основные банковские карты (Visa, MasterCard), 
+                            а также электронные кошельки. Также возможна оплата наличными.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+    /* Hero Section */
+    .contact-hero {
+        background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .contact-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 40%;
+        height: 100%;
+        background: linear-gradient(45deg, transparent, rgba(220, 53, 69, 0.05));
+        clip-path: polygon(100% 0, 0 0, 100% 100%);
+    }
+    
+    .contact-stats > div {
+        text-align: center;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+    
+    /* Contact Form Card */
+    .contact-form-card {
+        background: white;
+        border: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    .form-floating {
+        position: relative;
+    }
+    
+    .form-floating label {
+        display: flex;
+        align-items: center;
+    }
+    
+    .form-control, .form-control:focus {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.1);
+    }
+    
+    .form-error {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        min-height: 1.25rem;
+    }
+    
+    /* Info Cards */
+    .info-card {
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    
+    .info-icon {
+        width: 50px;
+        height: 50px;
+        background: rgba(220, 53, 69, 0.1);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Hours Card */
+    .hours-card {
+        background: linear-gradient(135deg, #212529 0%, #343a40 100%);
+    }
+    
+    /* Social Icons */
+    .social-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: white;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .social-icon:hover {
+        transform: translateY(-5px);
+    }
+    
+    .social-icon.facebook { background: #1877F2; }
+    .social-icon.instagram { background: linear-gradient(45deg, #405DE6, #833AB4, #C13584, #E1306C, #FD1D1D, #F56040, #FFDC80); }
+    .social-icon.telegram { background: #0088CC; }
+    .social-icon.whatsapp { background: #25D366; }
+    
+    /* Map Section */
+    .map-container {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .map-placeholder {
+        background: linear-gradient(45deg, #6c757d, #495057);
+    }
+    
+    /* FAQ Accordion */
+    .accordion-button {
+        font-weight: 600;
+        padding: 1.25rem;
+        border: none;
+        background: #f8f9fa;
+    }
+    
+    .accordion-button:not(.collapsed) {
+        background: rgba(220, 53, 69, 0.1);
+        color: #dc3545;
+        box-shadow: none;
+    }
+    
+    .accordion-button:focus {
+        box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+    }
+    
+    .accordion-body {
+        padding: 1.25rem;
+        background: white;
+        border-top: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    /* Submit Button */
+    #submitBtn {
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    
+    #submitBtn:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(220, 53, 69, 0.2);
+    }
+    
+    #submitBtn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .contact-hero .display-4 {
+            font-size: 2.5rem;
+        }
+        
+        .contact-stats {
+            justify-content: center;
+        }
+        
+        .contact-form-card {
+            padding: 2rem !important;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .contact-hero .display-4 {
+            font-size: 2rem;
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+        }
+        
+        .info-card, .hours-card, .social-card {
+            padding: 1.5rem !important;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .contact-hero {
+            text-align: center;
+        }
+        
+        .contact-stats {
+            flex-direction: column;
+            gap: 2rem !important;
+        }
+        
+        .social-icons {
+            justify-content: center;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const contactForm = document.getElementById('contactForm');
+        const messageTextarea = document.getElementById('message');
+        const charCount = document.getElementById('charCount');
+        const submitBtn = document.getElementById('submitBtn');
+        const submitText = submitBtn.querySelector('.submit-text');
+        const submitSpinner = submitBtn.querySelector('.spinner-border');
+        
+        // Character counter
+        messageTextarea.addEventListener('input', function() {
+            const length = this.value.length;
+            charCount.textContent = `${length}/500 символов`;
+            
+            if (length > 500) {
+                charCount.classList.add('text-danger');
+                this.classList.add('is-invalid');
+            } else {
+                charCount.classList.remove('text-danger');
+                this.classList.remove('is-invalid');
+            }
+        });
+        
+        // Form validation
+        contactForm.addEventListener('submit', function(e) {
+            let isValid = true;
+            
+            // Validate name
+            const nameInput = document.getElementById('name');
+            const nameError = document.getElementById('nameError');
+            if (!nameInput.value.trim()) {
+                nameError.textContent = 'Пожалуйста, введите ваше имя';
+                nameInput.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                nameError.textContent = '';
+                nameInput.classList.remove('is-invalid');
+            }
+            
+            // Validate email
+            const emailInput = document.getElementById('email');
+            const emailError = document.getElementById('emailError');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (!emailInput.value.trim()) {
+                emailError.textContent = 'Пожалуйста, введите ваш email';
+                emailInput.classList.add('is-invalid');
+                isValid = false;
+            } else if (!emailRegex.test(emailInput.value)) {
+                emailError.textContent = 'Пожалуйста, введите корректный email';
+                emailInput.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                emailError.textContent = '';
+                emailInput.classList.remove('is-invalid');
+            }
+            
+            // Validate subject
+            const subjectInput = document.getElementById('subject');
+            const subjectError = document.getElementById('subjectError');
+            if (!subjectInput.value.trim()) {
+                subjectError.textContent = 'Пожалуйста, введите тему сообщения';
+                subjectInput.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                subjectError.textContent = '';
+                subjectInput.classList.remove('is-invalid');
+            }
+            
+            // Validate message
+            const messageError = document.getElementById('messageError');
+            if (!messageTextarea.value.trim()) {
+                messageError.textContent = 'Пожалуйста, введите ваше сообщение';
+                messageTextarea.classList.add('is-invalid');
+                isValid = false;
+            } else if (messageTextarea.value.length > 500) {
+                messageError.textContent = 'Сообщение не должно превышать 500 символов';
+                messageTextarea.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                messageError.textContent = '';
+                messageTextarea.classList.remove('is-invalid');
+            }
+            
+            if (!isValid) {
+                e.preventDefault();
+                return;
+            }
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitText.classList.add('d-none');
+            submitSpinner.classList.remove('d-none');
+            
+            // Simulate form submission (remove in production)
+            setTimeout(() => {
+                submitBtn.disabled = false;
+                submitText.classList.remove('d-none');
+                submitSpinner.classList.add('d-none');
+                
+                // Show success message
+                alert('Сообщение успешно отправлено! Мы свяжемся с вами в ближайшее время.');
+                
+                // Reset form
+                contactForm.reset();
+                charCount.textContent = '0/500 символов';
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 2000);
+            
+            // Prevent actual submission for demo
+            e.preventDefault();
+        });
+        
+        // Add animation to info cards
+        document.querySelectorAll('.info-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                const icon = this.querySelector('.info-icon i');
+                icon.style.transform = 'scale(1.2)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                const icon = this.querySelector('.info-icon i');
+                icon.style.transform = 'scale(1)';
+            });
+        });
+        
+        // Initialize tooltips
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+</script>
 {% endblock main %}

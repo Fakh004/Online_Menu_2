@@ -1,0 +1,646 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    {{ dish.dish_name }} - CAFE FAKH
+{% endblock title %}
+
+{% block main %}
+<div class="container py-5">
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home_name' %}" class="text-decoration-none">
+                <i class="bi bi-house-door me-1"></i>Главная
+            </a></li>
+            <li class="breadcrumb-item"><a href="#menu" class="text-decoration-none">
+                <i class="bi bi-menu-button me-1"></i>Меню
+            </a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ dish.dish_name }}</li>
+        </ol>
+    </nav>
+
+    <div class="row g-5">
+        <!-- Dish Image Section -->
+        <div class="col-lg-7">
+            <div class="dish-image-container">
+                {% if dish.image %}
+                    <img src="{{ dish.image.url }}" 
+                         class="dish-main-image img-fluid rounded-4 shadow-lg" 
+                         alt="{{ dish.dish_name }}">
+                {% else %}
+                    <div class="no-image-placeholder rounded-4 shadow-lg">
+                        <i class="bi bi-image text-muted display-1"></i>
+                        <p class="mt-3 text-muted">Изображение отсутствует</p>
+                    </div>
+                {% endif %}
+                
+                {% if dish.is_popular %}
+                <div class="popular-badge">
+                    <span class="badge bg-danger px-3 py-2">
+                        <i class="bi bi-star-fill me-1"></i>Популярное
+                    </span>
+                </div>
+                {% endif %}
+                
+                {% if dish.is_vegetarian %}
+                <div class="vegetarian-badge">
+                    <span class="badge bg-success px-3 py-2">
+                        <i class="bi bi-flower1 me-1"></i>Вегетарианское
+                    </span>
+                </div>
+                {% endif %}
+                
+                {% if dish.is_spicy %}
+                <div class="spicy-badge">
+                    <span class="badge bg-warning text-dark px-3 py-2">
+                        <i class="bi bi-fire me-1"></i>Острое
+                    </span>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Additional Images Gallery -->
+            <div class="image-gallery mt-4">
+                <h6 class="mb-3">Дополнительные фото</h6>
+                <div class="row g-2">
+                    {% for i in "123" %}
+                    <div class="col-4">
+                        <div class="gallery-item rounded-3">
+                            {% if dish.image %}
+                                <img src="{{ dish.image.url }}" 
+                                     class="img-fluid rounded-3" 
+                                     alt="{{ dish.dish_name }} - фото {{ forloop.counter }}">
+                            {% else %}
+                                <div class="no-thumb-placeholder rounded-3">
+                                    <i class="bi bi-image"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Dish Details Section -->
+        <div class="col-lg-5">
+            <div class="dish-details-card p-4 rounded-4 shadow-sm h-100">
+                <!-- Category Badge -->
+                <div class="mb-4">
+                    <span class="badge bg-light text-dark border px-3 py-2">
+                        <i class="bi bi-tag me-1"></i>
+                        {% if dish.category == 'starter' %}
+                            Закуска
+                        {% elif dish.category == 'main' %}
+                            Основное блюдо
+                        {% elif dish.category == 'dessert' %}
+                            Десерт
+                        {% elif dish.category == 'drink' %}
+                            Напиток
+                        {% else %}
+                            {{ dish.category }}
+                        {% endif %}
+                    </span>
+                </div>
+
+                <!-- Dish Name -->
+                <h1 class="dish-title mb-4">{{ dish.dish_name }}</h1>
+                
+                <!-- Rating -->
+                <div class="rating-section mb-4">
+                    <div class="d-flex align-items-center">
+                        <div class="stars me-2">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= dish.rating|default:5 %}
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                {% else %}
+                                    <i class="bi bi-star text-muted"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <span class="text-muted">({{ dish.review_count|default:"25" }} отзывов)</span>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="description-section mb-5">
+                    <h5 class="section-title mb-3">
+                        <i class="bi bi-card-text me-2"></i>Описание
+                    </h5>
+                    <p class="dish-description text-muted lead">
+                        {{ dish.description|default:"Вкусное блюдо, приготовленное с любовью нашими шеф-поварами." }}
+                    </p>
+                </div>
+
+                <!-- Ingredients -->
+                {% if dish.ingredients %}
+                <div class="ingredients-section mb-5">
+                    <h5 class="section-title mb-3">
+                        <i class="bi bi-egg-fried me-2"></i>Ингредиенты
+                    </h5>
+                    <div class="ingredients-list">
+                        {% for ingredient in dish.ingredients|slice:":6" %}
+                            <span class="badge bg-light text-dark border me-2 mb-2 px-3 py-2">
+                                {{ ingredient }}
+                            </span>
+                        {% endfor %}
+                        {% if dish.ingredients|length > 6 %}
+                            <span class="badge bg-light text-dark border me-2 mb-2 px-3 py-2">
+                                +{{ dish.ingredients|length|add:"-6" }} ещё
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Nutritional Info -->
+                <div class="nutrition-section mb-5">
+                    <h5 class="section-title mb-3">
+                        <i class="bi bi-basket me-2"></i>Пищевая ценность
+                    </h5>
+                    <div class="row text-center">
+                        <div class="col-3">
+                            <div class="nutrition-item">
+                                <div class="nutrition-value">{{ dish.calories|default:"350" }}</div>
+                                <div class="nutrition-label">ккал</div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="nutrition-item">
+                                <div class="nutrition-value">{{ dish.protein|default:"25" }}г</div>
+                                <div class="nutrition-label">Белки</div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="nutrition-item">
+                                <div class="nutrition-value">{{ dish.carbs|default:"40" }}г</div>
+                                <div class="nutrition-label">Углеводы</div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="nutrition-item">
+                                <div class="nutrition-value">{{ dish.fat|default:"15" }}г</div>
+                                <div class="nutrition-label">Жиры</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price & Order Section -->
+                <div class="order-section p-4 bg-light rounded-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <div class="text-muted small">Цена</div>
+                            <div class="price display-4 fw-bold text-danger">
+                                {{ dish.price }} TJS
+                            </div>
+                            <div class="text-muted small mt-1">
+                                <i class="bi bi-clock me-1"></i>
+                                Приготовление: {{ dish.preparation_time|default:"25" }} минут
+                            </div>
+                        </div>
+                        <div class="quantity-selector">
+                            <div class="input-group" style="width: 140px;">
+                                <button class="btn btn-outline-danger" type="button" id="decrease-qty">
+                                    <i class="bi bi-dash"></i>
+                                </button>
+                                <input type="text" class="form-control text-center border-danger" 
+                                       value="1" id="quantity-input" readonly>
+                                <button class="btn btn-outline-danger" type="button" id="increase-qty">
+                                    <i class="bi bi-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="d-grid gap-3">
+                        <button class="btn btn-danger btn-lg py-3" id="add-to-cart-btn">
+                            <i class="bi bi-cart-plus me-2"></i>
+                            Добавить в корзину
+                        </button>
+                        <button class="btn btn-outline-danger btn-lg py-3" id="order-now-btn">
+                            <i class="bi bi-lightning-charge me-2"></i>
+                            Заказать сейчас
+                        </button>
+                        <button class="btn btn-outline-dark btn-lg py-3" id="save-for-later-btn">
+                            <i class="bi bi-bookmark me-2"></i>
+                            Сохранить на потом
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Additional Info -->
+                <div class="additional-info mt-4">
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <div class="info-item d-flex align-items-center">
+                                <i class="bi bi-shield-check text-success me-2"></i>
+                                <span class="small">Гарантия свежести</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="info-item d-flex align-items-center">
+                                <i class="bi bi-truck text-primary me-2"></i>
+                                <span class="small">Доставка 45 мин</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Dishes Section -->
+    <div class="related-dishes mt-5">
+        <h3 class="mb-4">Похожие блюда</h3>
+        <div class="row g-4">
+            {% for related_dish in related_dishes|slice:":3" %}
+            <div class="col-md-4">
+                <div class="card dish-card border-0 shadow-sm h-100">
+                    {% if related_dish.image %}
+                        <img src="{{ related_dish.image.url }}" 
+                             class="card-img-top" 
+                             alt="{{ related_dish.dish_name }}">
+                    {% else %}
+                        <div class="no-image-placeholder">
+                            <i class="bi bi-image text-muted"></i>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ related_dish.dish_name }}</h5>
+                        <p class="card-text text-muted small">{{ related_dish.description|truncatechars:80 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="price-badge bg-danger text-white px-3 py-1 rounded-pill">
+                                {{ related_dish.price }} TJS
+                            </span>
+                            <a href="{% url 'dish_detail_name' related_dish.id %}" 
+                               class="btn btn-sm btn-outline-danger">
+                                Подробнее
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    Нет похожих блюд в этой категории
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="text-center mt-5">
+        <a href="{% url 'home_name' %}" class="btn btn-outline-dark btn-lg px-5">
+            <i class="bi bi-arrow-left me-2"></i>
+            Вернуться в меню
+        </a>
+    </div>
+</div>
+
+<style>
+    /* Dish Image Container */
+    .dish-image-container {
+        position: relative;
+        overflow: hidden;
+        border-radius: 20px;
+    }
+    
+    .dish-main-image {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .dish-image-container:hover .dish-main-image {
+        transform: scale(1.02);
+    }
+    
+    .no-image-placeholder {
+        width: 100%;
+        height: 500px;
+        background: #f8f9fa;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: 2px dashed #dee2e6;
+    }
+    
+    /* Badges */
+    .popular-badge,
+    .vegetarian-badge,
+    .spicy-badge {
+        position: absolute;
+        top: 20px;
+        animation: badgePulse 2s infinite;
+    }
+    
+    .popular-badge { right: 20px; }
+    .vegetarian-badge { left: 20px; }
+    .spicy-badge { left: 20px; top: 70px; }
+    
+    @keyframes badgePulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+    
+    /* Image Gallery */
+    .gallery-item {
+        height: 100px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+    
+    .gallery-item:hover {
+        border-color: #dc3545;
+        transform: translateY(-5px);
+    }
+    
+    .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .no-thumb-placeholder {
+        width: 100%;
+        height: 100%;
+        background: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6c757d;
+    }
+    
+    /* Dish Details Card */
+    .dish-details-card {
+        background: white;
+        border: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    .dish-title {
+        color: #212529;
+        font-weight: 700;
+        line-height: 1.2;
+        font-size: 2.5rem;
+    }
+    
+    .section-title {
+        color: #495057;
+        font-weight: 600;
+        position: relative;
+        padding-bottom: 10px;
+    }
+    
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background: #dc3545;
+    }
+    
+    /* Ingredients */
+    .ingredients-list .badge {
+        transition: all 0.3s ease;
+    }
+    
+    .ingredients-list .badge:hover {
+        background: #dc3545 !important;
+        color: white !important;
+        transform: translateY(-2px);
+    }
+    
+    /* Nutrition Section */
+    .nutrition-item {
+        padding: 10px;
+        background: white;
+        border-radius: 10px;
+        border: 1px solid #e9ecef;
+    }
+    
+    .nutrition-value {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #212529;
+    }
+    
+    .nutrition-label {
+        font-size: 0.8rem;
+        color: #6c757d;
+        margin-top: 5px;
+    }
+    
+    /* Price & Order */
+    .price {
+        text-shadow: 0 2px 4px rgba(220, 53, 69, 0.1);
+    }
+    
+    .quantity-selector .input-group {
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .quantity-selector button {
+        width: 45px;
+        font-weight: bold;
+    }
+    
+    .quantity-selector input {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    
+    /* Action Buttons */
+    #add-to-cart-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(220, 53, 69, 0.2);
+    }
+    
+    /* Related Dishes */
+    .dish-card {
+        transition: all 0.3s ease;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+    
+    .dish-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+    }
+    
+    .dish-card .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .dish-title {
+            font-size: 2rem;
+        }
+        
+        .dish-main-image,
+        .no-image-placeholder {
+            height: 400px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .dish-title {
+            font-size: 1.8rem;
+        }
+        
+        .dish-main-image,
+        .no-image-placeholder {
+            height: 300px;
+        }
+        
+        .price {
+            font-size: 2.5rem;
+        }
+        
+        .order-section .btn-lg {
+            font-size: 1rem;
+            padding: 0.75rem;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .dish-title {
+            font-size: 1.5rem;
+        }
+        
+        .dish-main-image,
+        .no-image-placeholder {
+            height: 250px;
+        }
+        
+        .popular-badge,
+        .vegetarian-badge,
+        .spicy-badge {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Quantity Selector
+        const quantityInput = document.getElementById('quantity-input');
+        const decreaseBtn = document.getElementById('decrease-qty');
+        const increaseBtn = document.getElementById('increase-qty');
+        
+        decreaseBtn.addEventListener('click', function() {
+            let value = parseInt(quantityInput.value);
+            if (value > 1) {
+                quantityInput.value = value - 1;
+            }
+        });
+        
+        increaseBtn.addEventListener('click', function() {
+            let value = parseInt(quantityInput.value);
+            quantityInput.value = value + 1;
+        });
+        
+        // Add to Cart
+        const addToCartBtn = document.getElementById('add-to-cart-btn');
+        addToCartBtn.addEventListener('click', function() {
+            const quantity = parseInt(quantityInput.value);
+            const dishName = "{{ dish.dish_name }}";
+            const originalText = addToCartBtn.innerHTML;
+            
+            // Animation
+            addToCartBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>Добавлено!';
+            addToCartBtn.classList.remove('btn-danger');
+            addToCartBtn.classList.add('btn-success');
+            
+            // Show notification
+            showNotification(`"${dishName}" добавлено в корзину (${quantity} шт.)`);
+            
+            // Reset after 2 seconds
+            setTimeout(() => {
+                addToCartBtn.innerHTML = originalText;
+                addToCartBtn.classList.remove('btn-success');
+                addToCartBtn.classList.add('btn-danger');
+            }, 2000);
+            
+            // Here you would typically make an AJAX call
+            console.log(`Added ${quantity} of dish {{ dish.id }} to cart`);
+        });
+        
+        // Order Now
+        document.getElementById('order-now-btn').addEventListener('click', function() {
+            alert('Переход к оформлению заказа');
+            // window.location.href = "/checkout/";
+        });
+        
+        // Save for Later
+        document.getElementById('save-for-later-btn').addEventListener('click', function() {
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="bi bi-check2 me-2"></i>Сохранено';
+            this.classList.remove('btn-outline-dark');
+            this.classList.add('btn-success');
+            
+            setTimeout(() => {
+                this.innerHTML = originalText;
+                this.classList.remove('btn-success');
+                this.classList.add('btn-outline-dark');
+            }, 2000);
+        });
+        
+        // Gallery Image Click
+        document.querySelectorAll('.gallery-item img').forEach(img => {
+            img.addEventListener('click', function() {
+                const mainImage = document.querySelector('.dish-main-image');
+                mainImage.src = this.src;
+                
+                // Add zoom effect
+                mainImage.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    mainImage.style.transform = 'scale(1)';
+                }, 300);
+            });
+        });
+        
+        // Notification function
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'alert alert-success position-fixed';
+            notification.style.cssText = `
+                top: 20px;
+                right: 20px;
+                z-index: 9999;
+                min-width: 300px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                animation: slideIn 0.3s ease;
+            `;
+            notification.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    <div>${message}</div>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+    });
+</script>
+{% endblock main %}

@@ -254,6 +254,9 @@
                     <li><a href="{% url 'contact_name'%}" class="{% if request.resolver_match.url_name == 'contact_name' %}active{% endif %}">
                         <i class="bi bi-envelope"></i> Contact
                     </a></li>
+                    <li><a href="{% url 'add_dish' %}" class="{% if request.resolver_match.url_name == 'add_dish' %}active{% endif %}">
+                        <i class="bi bi-plus-circle"></i> Add Dish
+                    </a></li>
                 </ul>
             </nav>
         </div>
@@ -263,7 +266,7 @@
         <div class="main-container">
             <div class="content-card">
                 {% block main %}
-                
+
                 {% endblock main %}
             </div>
         </div>

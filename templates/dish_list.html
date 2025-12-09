@@ -1,0 +1,816 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Меню - CAFE FAKH
+{% endblock title %}
+
+{% block main %}
+<div class="dish-list-page">
+    <!-- Hero Section -->
+    <section class="dish-hero py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold mb-4">
+                        Наше 
+                        <span class="text-danger">меню</span>
+                    </h1>
+                    <p class="lead mb-4">
+                        Откройте для себя мир вкусов и ароматов. Каждое блюдо — это произведение 
+                        кулинарного искусства, созданное с любовью нашими шеф-поварами.
+                    </p>
+                    <div class="hero-features">
+                        <span class="badge bg-light text-dark border me-2 mb-2">
+                            <i class="bi bi-clock text-danger me-1"></i>Свежие продукты
+                        </span>
+                        <span class="badge bg-light text-dark border me-2 mb-2">
+                            <i class="bi bi-fire text-danger me-1"></i>Домашняя кухня
+                        </span>
+                        <span class="badge bg-light text-dark border me-2 mb-2">
+                            <i class="bi bi-egg-fried text-danger me-1"></i>Авторские рецепты
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-lg-end">
+                    <div class="menu-badge">
+                        <div class="badge-content">
+                            <div class="badge-number">{{ dishes|length }}</div>
+                            <div class="badge-label">блюд в меню</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters & Search -->
+    <section class="filters-section py-4 bg-light">
+        <div class="container">
+            <div class="row g-3 align-items-center">
+                <div class="col-lg-4 col-md-6">
+                    <div class="search-box">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="bi bi-search text-muted"></i>
+                            </span>
+                            <input type="text" 
+                                   class="form-control border-start-0" 
+                                   id="searchInput" 
+                                   placeholder="Поиск блюд...">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="category-filter">
+                        <select class="form-select" id="categoryFilter">
+                            <option value="">Все категории</option>
+                            <option value="starter">Закуски</option>
+                            <option value="main">Основные блюда</option>
+                            <option value="dessert">Десерты</option>
+                            <option value="drink">Напитки</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-12">
+                    <div class="d-flex justify-content-end gap-2">
+                        <button class="btn btn-outline-danger" id="sortPriceBtn">
+                            <i class="bi bi-sort-down me-1"></i>По цене
+                        </button>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-dark dropdown-toggle" 
+                                    type="button" 
+                                    data-bs-toggle="dropdown">
+                                <i class="bi bi-filter me-1"></i>Фильтры
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <div class="dropdown-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" 
+                                                   type="checkbox" 
+                                                   id="vegetarianFilter">
+                                            <label class="form-check-label" for="vegetarianFilter">
+                                                Вегетарианские
+                                            </label>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dropdown-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" 
+                                                   type="checkbox" 
+                                                   id="spicyFilter">
+                                            <label class="form-check-label" for="spicyFilter">
+                                                Острые
+                                            </label>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dropdown-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" 
+                                                   type="checkbox" 
+                                                   id="popularFilter">
+                                            <label class="form-check-label" for="popularFilter">
+                                                Популярные
+                                            </label>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dish Grid -->
+    <section class="dish-grid-section py-5">
+        <div class="container">
+            {% if dishes %}
+            <div class="row g-4" id="dishGrid">
+                {% for dish in dishes %}
+                <div class="col-xl-3 col-lg-4 col-md-6 dish-item" 
+                     data-category="{{ dish.category }}"
+                     data-price="{{ dish.price }}"
+                     data-vegetarian="{{ dish.is_vegetarian|yesno:'true,false' }}"
+                     data-spicy="{{ dish.is_spicy|yesno:'true,false' }}"
+                     data-popular="{{ dish.is_popular|yesno:'true,false' }}">
+                    <div class="card dish-card border-0 shadow-sm h-100">
+                        <div class="card-img-wrapper">
+                            {% if dish.image %}
+                                <img src="{{ dish.image.url }}" 
+                                     class="card-img-top" 
+                                     alt="{{ dish.dish_name }}">
+                            {% else %}
+                                <div class="no-image-placeholder">
+                                    <i class="bi bi-image text-muted display-6"></i>
+                                </div>
+                            {% endif %}
+                            
+                            <!-- Badges -->
+                            <div class="dish-badges">
+                                {% if dish.is_popular %}
+                                <span class="badge bg-danger">
+                                    <i class="bi bi-star-fill me-1"></i>Популярное
+                                </span>
+                                {% endif %}
+                                {% if dish.is_vegetarian %}
+                                <span class="badge bg-success">
+                                    <i class="bi bi-flower1 me-1"></i>Вегетарианское
+                                </span>
+                                {% endif %}
+                                {% if dish.is_spicy %}
+                                <span class="badge bg-warning text-dark">
+                                    <i class="bi bi-fire me-1"></i>Острое
+                                </span>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Category Badge -->
+                            <div class="category-badge position-absolute top-0 start-0 m-3">
+                                {% if dish.category == 'starter' %}
+                                    <span class="badge bg-primary">Закуска</span>
+                                {% elif dish.category == 'main' %}
+                                    <span class="badge bg-danger">Основное</span>
+                                {% elif dish.category == 'dessert' %}
+                                    <span class="badge bg-success">Десерт</span>
+                                {% elif dish.category == 'drink' %}
+                                    <span class="badge bg-info">Напиток</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title fw-bold mb-0">{{ dish.dish_name }}</h5>
+                                <span class="price-badge bg-danger text-white px-3 py-1 rounded-pill">
+                                    {{ dish.price }} TJS
+                                </span>
+                            </div>
+                            
+                            <p class="card-text text-muted small mb-3">
+                                {{ dish.description|truncatechars:100 }}
+                            </p>
+                            
+                            <div class="dish-meta d-flex justify-content-between align-items-center">
+                                <span class="text-muted small">
+                                    <i class="bi bi-clock me-1"></i>{{ dish.preparation_time|default:"20" }} мин
+                                </span>
+                                <span class="rating small">
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    {{ dish.rating|default:"4.5" }}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer bg-transparent border-top-0 pt-0">
+                            <div class="d-grid gap-2">
+                                    <i class="bi bi-eye me-1"></i>Подробнее
+                                </a>
+                                <button class="btn btn-danger btn-sm add-to-cart-btn" 
+                                        data-dish-id="{{ dish.id }}"
+                                        data-dish-name="{{ dish.dish_name }}">
+                                    <i class="bi bi-cart-plus me-1"></i>В корзину
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if is_paginated %}
+            <nav aria-label="Page navigation" class="mt-5">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                    
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+            
+            {% else %}
+            <!-- Empty State -->
+            <div class="empty-state text-center py-5">
+                <div class="empty-icon mb-4">
+                    <i class="bi bi-emoji-frown text-muted display-1"></i>
+                </div>
+                <h3 class="mb-3">Меню пока пусто</h3>
+                <p class="text-muted mb-4">Мы активно работаем над добавлением новых блюд</p>
+                <a href="{% url 'home_name' %}" class="btn btn-danger">
+                    <i class="bi bi-arrow-left me-2"></i>Вернуться на главную
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section py-5 bg-light">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="stat-card">
+                        <div class="stat-icon mb-3">
+                            <i class="bi bi-egg-fried text-danger display-4"></i>
+                        </div>
+                        <h4 class="stat-number fw-bold">{{ categories.starter|default:"0" }}</h4>
+                        <p class="stat-label text-muted">Закусок</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="stat-card">
+                        <div class="stat-icon mb-3">
+                            <i class="bi bi-fire text-danger display-4"></i>
+                        </div>
+                        <h4 class="stat-number fw-bold">{{ categories.main|default:"0" }}</h4>
+                        <p class="stat-label text-muted">Основных блюд</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="stat-card">
+                        <div class="stat-icon mb-3">
+                            <i class="bi bi-cake2 text-danger display-4"></i>
+                        </div>
+                        <h4 class="stat-number fw-bold">{{ categories.dessert|default:"0" }}</h4>
+                        <p class="stat-label text-muted">Десертов</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="stat-card">
+                        <div class="stat-icon mb-3">
+                            <i class="bi bi-cup-straw text-danger display-4"></i>
+                        </div>
+                        <h4 class="stat-number fw-bold">{{ categories.drink|default:"0" }}</h4>
+                        <p class="stat-label text-muted">Напитков</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h3 class="fw-bold mb-3">Не нашли то, что искали?</h3>
+                    <p class="mb-0">Сообщите нам о своих пожеланиях — мы всегда рады новым идеям!</p>
+                </div>
+                <div class="col-lg-4 text-lg-end">
+                    <a href="{% url 'contact_name' %}" class="btn btn-danger btn-lg px-4">
+                        <i class="bi bi-chat-left-text me-2"></i>Предложить блюдо
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+    /* Hero Section */
+    .dish-hero {
+        background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    .menu-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #dc3545, #ff6b6b);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 10px 20px rgba(220, 53, 69, 0.2);
+        animation: pulse 2s infinite;
+    }
+    
+    .badge-content {
+        text-align: center;
+        color: white;
+    }
+    
+    .badge-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        line-height: 1;
+    }
+    
+    .badge-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+    
+    /* Filters */
+    .search-box .input-group {
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .search-box .form-control:focus {
+        box-shadow: none;
+    }
+    
+    /* Dish Cards */
+    .dish-card {
+        transition: all 0.3s ease;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+    
+    .dish-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+    }
+    
+    .card-img-wrapper {
+        height: 200px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .dish-card .card-img-top {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .dish-card:hover .card-img-top {
+        transform: scale(1.1);
+    }
+    
+    .no-image-placeholder {
+        width: 100%;
+        height: 100%;
+        background: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Badges */
+    .dish-badges {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .dish-badges .badge {
+        font-size: 0.7rem;
+        padding: 0.35em 0.65em;
+        animation: slideIn 0.3s ease;
+    }
+    
+    .category-badge .badge {
+        font-size: 0.75rem;
+        padding: 0.4em 0.8em;
+    }
+    
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateX(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    /* Price Badge */
+    .price-badge {
+        font-weight: bold;
+        font-size: 0.9rem;
+        min-width: 80px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    
+    .dish-card:hover .price-badge {
+        transform: scale(1.1);
+    }
+    
+    /* Dish Meta */
+    .dish-meta {
+        font-size: 0.85rem;
+    }
+    
+    .rating {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+    }
+    
+    /* Buttons */
+    .add-to-cart-btn {
+        transition: all 0.3s ease;
+    }
+    
+    .add-to-cart-btn:hover {
+        background-color: #c82333 !important;
+    }
+    
+    /* Empty State */
+    .empty-state {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    
+    /* Stats */
+    .stat-card {
+        padding: 1.5rem;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .stat-icon {
+        transition: transform 0.3s ease;
+    }
+    
+    .stat-card:hover .stat-icon {
+        transform: scale(1.2);
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+        color: #212529;
+    }
+    
+    /* Pagination */
+    .page-link {
+        color: #dc3545;
+        border: 1px solid #dee2e6;
+        margin: 0 3px;
+        border-radius: 8px !important;
+    }
+    
+    .page-link:hover {
+        background-color: #f8f9fa;
+        border-color: #dc3545;
+    }
+    
+    .page-item.active .page-link {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+        background: linear-gradient(135deg, rgba(220, 53, 69, 0.1) 0%, rgba(255, 107, 107, 0.05) 100%);
+        border-radius: 20px;
+        margin: 2rem auto;
+        max-width: 1200px;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .dish-hero .display-4 {
+            font-size: 2.5rem;
+        }
+        
+        .menu-badge {
+            margin-top: 2rem;
+        }
+        
+        .stat-number {
+            font-size: 1.75rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .dish-hero .display-4 {
+            font-size: 2rem;
+        }
+        
+        .badge-number {
+            font-size: 2rem;
+        }
+        
+        .card-img-wrapper {
+            height: 180px;
+        }
+        
+        .filters-section .btn {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stats-section .col-6 {
+            margin-bottom: 1.5rem;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .dish-hero {
+            text-align: center;
+        }
+        
+        .hero-features {
+            justify-content: center;
+        }
+        
+        .dish-badges {
+            position: static;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .dish-card .card-title {
+            font-size: 1rem;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const dishItems = document.querySelectorAll('.dish-item');
+        
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            
+            dishItems.forEach(item => {
+                const dishName = item.querySelector('.card-title').textContent.toLowerCase();
+                const dishDesc = item.querySelector('.card-text').textContent.toLowerCase();
+                
+                if (dishName.includes(searchTerm) || dishDesc.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+        
+        // Category filter
+        const categoryFilter = document.getElementById('categoryFilter');
+        categoryFilter.addEventListener('change', function() {
+            const selectedCategory = this.value;
+            
+            dishItems.forEach(item => {
+                const itemCategory = item.getAttribute('data-category');
+                
+                if (!selectedCategory || itemCategory === selectedCategory) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+        
+        // Price sort
+        const sortPriceBtn = document.getElementById('sortPriceBtn');
+        let sortAscending = true;
+        
+        sortPriceBtn.addEventListener('click', function() {
+            const dishGrid = document.getElementById('dishGrid');
+            const items = Array.from(dishItems);
+            
+            items.sort((a, b) => {
+                const priceA = parseFloat(a.getAttribute('data-price'));
+                const priceB = parseFloat(b.getAttribute('data-price'));
+                
+                if (sortAscending) {
+                    return priceA - priceB;
+                } else {
+                    return priceB - priceA;
+                }
+            });
+            
+            // Reorder items in grid
+            items.forEach(item => {
+                dishGrid.appendChild(item);
+            });
+            
+            // Toggle sort direction
+            sortAscending = !sortAscending;
+            this.innerHTML = sortAscending 
+                ? '<i class="bi bi-sort-down me-1"></i>По цене ↑'
+                : '<i class="bi bi-sort-up me-1"></i>По цене ↓';
+        });
+        
+        // Add to cart functionality
+        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const dishId = this.getAttribute('data-dish-id');
+                const dishName = this.getAttribute('data-dish-name');
+                const originalText = this.innerHTML;
+                
+                // Animation
+                this.innerHTML = '<i class="bi bi-check-circle me-1"></i>Добавлено';
+                this.classList.remove('btn-danger');
+                this.classList.add('btn-success');
+                this.disabled = true;
+                
+                // Show notification
+                showNotification(`"${dishName}" добавлен в корзину`);
+                
+                // Reset after 2 seconds
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.classList.remove('btn-success');
+                    this.classList.add('btn-danger');
+                    this.disabled = false;
+                }, 2000);
+                
+                // AJAX call to add to cart (implement based on your backend)
+                console.log(`Added dish ${dishId} to cart`);
+            });
+        });
+        
+        // Filter checkboxes
+        const vegetarianFilter = document.getElementById('vegetarianFilter');
+        const spicyFilter = document.getElementById('spicyFilter');
+        const popularFilter = document.getElementById('popularFilter');
+        
+        function applyFilters() {
+            const isVegetarian = vegetarianFilter.checked;
+            const isSpicy = spicyFilter.checked;
+            const isPopular = popularFilter.checked;
+            
+            dishItems.forEach(item => {
+                const vegetarian = item.getAttribute('data-vegetarian') === 'true';
+                const spicy = item.getAttribute('data-spicy') === 'true';
+                const popular = item.getAttribute('data-popular') === 'true';
+                
+                let shouldShow = true;
+                
+                if (isVegetarian && !vegetarian) shouldShow = false;
+                if (isSpicy && !spicy) shouldShow = false;
+                if (isPopular && !popular) shouldShow = false;
+                
+                item.style.display = shouldShow ? 'block' : 'none';
+            });
+        }
+        
+        vegetarianFilter.addEventListener('change', applyFilters);
+        spicyFilter.addEventListener('change', applyFilters);
+        popularFilter.addEventListener('change', applyFilters);
+        
+        // Notification function
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'alert alert-success position-fixed';
+            notification.style.cssText = `
+                top: 20px;
+                right: 20px;
+                z-index: 9999;
+                min-width: 300px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                animation: slideInRight 0.3s ease;
+            `;
+            notification.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    <div>${message}</div>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+        
+        // Add CSS for animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            @keyframes slideOutRight {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Animate cards on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        
+        document.querySelectorAll('.dish-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease-out';
+            observer.observe(card);
+        });
+    });
+</script>
+{% endblock main %}

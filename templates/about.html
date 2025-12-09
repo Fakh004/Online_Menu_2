@@ -1,69 +1,813 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block main %}
-<div class="container y-5">
-
-
-  <nav class="nav justify-content-center mb-5" style="margin-top: 100px;">
-    <a class="nav-link text-dark fw-semibold" href="#">Главная</a>
-    <a class="nav-link text-dark fw-semibold" href="#">О нас</a>
-    <a class="nav-link text-dark fw-semibold" href="#">Услуги</a>
-    <a class="nav-link text-dark fw-semibold" href="#">Контакты</a>
-  </nav>
-
-  <section class="about-section row align-items-center my-5">
-    <div class="col-md-6 mb-4 mb-md-0">
-      <h2 class="fw-bold mb-3">Кто мы?</h2>
-      <p class="text-muted fs-5">
-        В нашем кафе вы можете насладиться спокойным отдыхом в компании друзей или работой с ноутбуком и бесплатным Wi-Fi. 
-        Интерьер сочетает в себе современный дизайн и уютную атмосферу, куда хочется возвращаться снова.
-      </p>
-      <p class="text-muted fs-5">
-        Мы верим, что каждое блюдо уникально, поэтому подходим к приготовлению с любовью и вниманием. 
-        Надёжность, качество и креатив — наши приоритеты.
-      </p>
-    </div>
-
-    <div class="col-md-6 text-center">
-      <img src="https://avatars.mds.yandex.net/i?id=aca33442c57d8d6bba9721c579070c56b1f9e743-4386106-images-thumbs&n=13" alt="Наша команда" class="img-fluid rounded shadow-lg">
-    </div>
-  </section>
-
-  <section class="team-section text-center my-5">
-    <h2 class="fw-bold mb-4">Наши места</h2>
-    <div class="row justify-content-center g-4">
-
-      <div class="col-md-4 col-sm-6">
-        <div class="card border-0 shadow-sm h-100">
-          <img src="https://avatars.mds.yandex.net/i?id=7a5390079c262970215b465d0bca2b88a7ffcaed-13308934-images-thumbs&n=13" alt="Айрапорт" class="card-img-top" style="height: 250px; object-fit: cover;">
-          <div class="card-body">
-            <h5 class="fw-bold">Аeйрапорт</h5>
-            <p class="text-muted">Уютная локация рядом с аэропортом — идеальна для ожидания рейса ☕</p>
-          </div>
+<div class="about-page">
+    <!-- Hero Banner -->
+    <section class="about-hero py-5 mb-5">
+        <div class="container">
+            <div class="row align-items-center min-vh-50">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="display-3 fw-bold mb-4">
+                        Наша история в 
+                        <span class="text-danger">каждой чашке</span>
+                    </h1>
+                    <p class="lead mb-4">
+                        С 2015 года мы создаем уютные пространства, где вкус, качество и атмосфера 
+                        объединяются в уникальный гастрономический опыт.
+                    </p>
+                    <div class="hero-stats d-flex justify-content-center gap-5 mt-5">
+                        <div class="stat-item">
+                            <div class="stat-number text-danger display-6 fw-bold">8+</div>
+                            <div class="stat-label">Лет опыта</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number text-danger display-6 fw-bold">3</div>
+                            <div class="stat-label">Локации</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number text-danger display-6 fw-bold">50K+</div>
+                            <div class="stat-label">Довольных гостей</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+    </section>
 
-      <div class="col-md-4 col-sm-6">
-        <div class="card border-0 shadow-sm h-100">
-          <img src="https://avatars.mds.yandex.net/i?id=e6b2cd5d5abbed58011bdaa07aae7eb714b84f51bd9646c7-11845750-images-thumbs&n=13" alt="Profsayuz" class="card-img-top" style="height: 250px; object-fit: cover;">
-          <div class="card-body">
-            <h5 class="fw-bold">Profsayuz</h5>
-            <p class="text-muted">Современное пространство для встреч и работы 💻</p>
-          </div>
+    <!-- Navigation -->
+    <nav class="sticky-nav" style="margin-top: 80px;">
+        <div class="container">
+            <div class="nav-scroller">
+                <nav class="nav nav-underline justify-content-center">
+                    <a class="nav-link active" href="#story">Наша история</a>
+                    <a class="nav-link" href="#values">Ценности</a>
+                    <a class="nav-link" href="#locations">Локации</a>
+                    <a class="nav-link" href="#team">Команда</a>
+                    <a class="nav-link" href="#mission">Миссия</a>
+                </nav>
+            </div>
         </div>
-      </div>
+    </nav>
 
-      <div class="col-md-4 col-sm-6">
-        <div class="card border-0 shadow-sm h-100">
-          <img src="https://avatars.mds.yandex.net/i?id=cbd2dc2d22c2db7dd6d1469bff3c6dc17a79fc9a-5341800-images-thumbs&n=13" alt="Микрорайон 82" class="card-img-top" style="height: 250px; object-fit: cover;">
-          <div class="card-body">
-            <h5 class="fw-bold">Микрорайон 82</h5>
-            <p class="text-muted">Тихое место для уютных посиделок и вкусного кофе ☕</p>
-          </div>
+    <!-- Story Section -->
+    <section id="story" class="story-section py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="story-image">
+                        <img src="https://avatars.mds.yandex.net/i?id=aca33442c57d8d6bba9721c579070c56b1f9e743-4386106-images-thumbs&n=13" 
+                             alt="История CAFE FAKH" 
+                             class="img-fluid rounded-4 shadow-lg">
+                        <div class="story-badge">
+                            <span class="badge bg-danger px-4 py-2">Основано в 2015</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="story-content ps-lg-5">
+                        <h2 class="section-title fw-bold mb-4">Наша история</h2>
+                        <div class="timeline">
+                            <div class="timeline-item mb-4">
+                                <div class="timeline-year text-danger fw-bold">2015</div>
+                                <div class="timeline-content">
+                                    <h5 class="fw-bold">Начало пути</h5>
+                                    <p class="text-muted">Открытие первой кофейни с мечтой о создании места, 
+                                    где каждый гость чувствует себя как дома.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item mb-4">
+                                <div class="timeline-year text-danger fw-bold">2018</div>
+                                <div class="timeline-content">
+                                    <h5 class="fw-bold">Расширение</h5>
+                                    <p class="text-muted">Открытие второй локации и введение собственной 
+                                    линейки десертов и выпечки.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item mb-4">
+                                <div class="timeline-year text-danger fw-bold">2021</div>
+                                <div class="timeline-content">
+                                    <h5 class="fw-bold">Новая философия</h5>
+                                    <p class="text-muted">Переход на экологичную упаковку и локальные продукты. 
+                                    Запуск онлайн-заказов.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year text-danger fw-bold">2024</div>
+                                <div class="timeline-content">
+                                    <h5 class="fw-bold">Современный подход</h5>
+                                    <p class="text-muted">Внедрение технологий бесконтактной оплаты и 
+                                    системы лояльности для постоянных гостей.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+    </section>
 
-    </div>
-  </section>
+    <!-- Values Section -->
+    <section id="values" class="values-section py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title fw-bold mb-3">Наши ценности</h2>
+                <p class="lead text-muted">Что делает нас особенными</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="value-card text-center p-4 h-100">
+                        <div class="value-icon mb-4">
+                            <i class="bi bi-heart-fill text-danger display-4"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">С любовью</h4>
+                        <p class="text-muted">Каждое блюдо и напиток мы готовим с заботой и вниманием к деталям.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="value-card text-center p-4 h-100">
+                        <div class="value-icon mb-4">
+                            <i class="bi bi-shield-check text-danger display-4"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Качество</h4>
+                        <p class="text-muted">Используем только свежие продукты от проверенных поставщиков.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="value-card text-center p-4 h-100">
+                        <div class="value-icon mb-4">
+                            <i class="bi bi-people-fill text-danger display-4"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Сообщество</h4>
+                        <p class="text-muted">Создаем пространство для встреч, работы и отдыха наших гостей.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- Locations Section -->
+    <section id="locations" class="locations-section py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title fw-bold mb-3">Наши локации</h2>
+                <p class="lead text-muted">Уютные пространства в разных районах города</p>
+            </div>
+            
+            <div class="row g-4">
+                <!-- Airport Location -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="location-card card border-0 shadow-lg h-100">
+                        <div class="location-image">
+                            <img src="https://avatars.mds.yandex.net/i?id=7a5390079c262970215b465d0bca2b88a7ffcaed-13308934-images-thumbs&n=13" 
+                                 alt="Аэропорт" 
+                                 class="card-img-top">
+                            <div class="location-badge">
+                                <span class="badge bg-danger">Открыто 24/7</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="location-header d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h4 class="fw-bold mb-1">Аэропорт</h4>
+                                    <p class="text-muted small mb-0">
+                                        <i class="bi bi-geo-alt text-danger me-1"></i>
+                                        ул. Аэропортная, 15
+                                    </p>
+                                </div>
+                                <div class="rating">
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <span class="fw-bold">4.8</span>
+                                </div>
+                            </div>
+                            <p class="card-text text-muted">
+                                Уютная локация рядом с аэропортом — идеальна для ожидания рейса. 
+                                Бесплатный Wi-Fi, розетки у каждого стола, тихая атмосфера.
+                            </p>
+                            <div class="location-features">
+                                <span class="badge bg-light text-dark border me-2 mb-2">
+                                    <i class="bi bi-wifi text-danger me-1"></i>Wi-Fi
+                                </span>
+                                <span class="badge bg-light text-dark border me-2 mb-2">
+                                    <i class="bi bi-outlet text-danger me-1"></i>Розетки
+                                </span>
+                                <span class="badge bg-light text-dark border me-2 mb-2">
+                                    <i class="bi bi-clock text-danger me-1"></i>Круглосуточно
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-top">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="#" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-map me-1"></i>Проложить маршрут
+                                </a>
+                                <a href="tel:+992123456789" class="text-decoration-none">
+                                    <i class="bi bi-telephone text-danger me-1"></i>Позвонить
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profsayuz Location -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="location-card card border-0 shadow-lg h-100">
+                        <div class="location-image">
+                            <img src="https://avatars.mds.yandex.net/i?id=e6b2cd5d5abbed58011bdaa07aae7eb714b84f51bd9646c7-11845750-images-thumbs&n=13" 
+                                 alt="Profsayuz" 
+                                 class="card-img-top">
+                        </div>
+                        <div class="card-body">
+                            <div class="location-header d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h4 class="fw-bold mb-1">Profsayuz</h4>
+                                    <p class="text-muted small mb-0">
+                                        <i class="bi bi-geo-alt text-danger me-1"></i>
+                                        пр. Профсоюзный, 42
+                                    </p>
+                                </div>
+                                <div class="rating">
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <span class="fw-bold">4.9</span>
+                                </div>
+                            </div>
+                            <p class="card-text text-muted">
+                                Современное пространство для встреч и работы. Просторный зал, 
+                                отдельные переговорные, оборудование для презентаций.
+                            </p>
+                            <div class="location-features">
+                                <span class="badge bg-light text-dark border me-2 mb-2">
+                                    <i class="bi bi-briefcase text-danger me-1"></i>Для работы
+                                </span>
+                                <span class="badge bg-light text-dark border me-2 mb-2">
+                                    <i class="bi bi-display text-danger me-1"></i>Проектор
+                                </span>
+                                <span class="badge bg-light text-dark border me-2 mb-2">
+                                    <i class="bi bi-people text-danger me-1"></i>Встречи
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-top">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="#" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-map me-1"></i>Проложить маршрут
+                                </a>
+                                <a href="tel:+992987654321" class="text-decoration-none">
+                                    <i class="bi bi-telephone text-danger me-1"></i>Позвонить
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Microdistrict 82 Location -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="location-card card border-0 shadow-lg h-100">
+                        <div class="location-image">
+                            <img src="https://avatars.mds.yandex.net/i?id=cbd2dc2d22c2db7dd6d1469bff3c6dc17a79fc9a-5341800-images-thumbs&n=13" 
+                                 alt="Микрорайон 82" 
+                                 class="card-img-top">
+                        </div>
+                        <div class="card-body">
+                            <div class="location-header d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h4 class="fw-bold mb-1">Микрорайон 82</h4>
+                                    <p class="text-muted small mb-0">
+                                        <i class="bi bi-geo-alt text-danger me-1"></i>
+                                        мкр. 82, дом 25
+                                    </p>
+                                </div>
+                                <div class="rating">
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <span class="fw-bold">4.7</span>
+                                </div>
+                            </div>
+                            <p class="card-text text-muted">
+                                Тихое место для уютных посиделок и вкусного кофе. Каминная зона, 
+                                мягкие кресла, домашняя атмосфера.
+                            </p>
+                            <div class="location-features">
+                                <span class="badge bg-light text-dark border me-2 mb-2">
+                                    <i class="bi bi-fire text-danger me-1"></i>Камин
+                                </span>
+                                <span class="badge bg-light text-dark border me-2 mb-2">
+                                    <i class="bi bi-book text-danger me-1"></i>Библиотека
+                                </span>
+                                <span class="badge bg-light text-dark border me-2 mb-2">
+                                    <i class="bi bi-emoji-sunglasses text-danger me-1"></i>Уют
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-top">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="#" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-map me-1"></i>Проложить маршрут
+                                </a>
+                                <a href="tel:+992112233445" class="text-decoration-none">
+                                    <i class="bi bi-telephone text-danger me-1"></i>Позвонить
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="team-section py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title fw-bold mb-3">Наша команда</h2>
+                <p class="lead text-muted">Профессионалы, которые создают атмосферу</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="team-card text-center p-4">
+                        <div class="team-avatar mb-3">
+                            <img src="https://via.placeholder.com/150x150?text=Шеф-повар" 
+                                 class="rounded-circle" 
+                                 alt="Шеф-повар">
+                        </div>
+                        <h5 class="fw-bold mb-1">Алишер Каримов</h5>
+                        <p class="text-danger small mb-3">Шеф-повар</p>
+                        <p class="text-muted small">Создает уникальные рецепты и следит за качеством каждого блюда</p>
+                        <div class="team-social">
+                            <a href="#" class="text-muted me-2"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="text-muted"><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="team-card text-center p-4">
+                        <div class="team-avatar mb-3">
+                            <img src="https://via.placeholder.com/150x150?text=Бариста" 
+                                 class="rounded-circle" 
+                                 alt="Бариста">
+                        </div>
+                        <h5 class="fw-bold mb-1">Сабина Нуриева</h5>
+                        <p class="text-danger small mb-3">Главный бариста</p>
+                        <p class="text-muted small">Мастер кофейного искусства и автор фирменных напитков</p>
+                        <div class="team-social">
+                            <a href="#" class="text-muted me-2"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="text-muted"><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="team-card text-center p-4">
+                        <div class="team-avatar mb-3">
+                            <img src="https://via.placeholder.com/150x150?text=Управляющий" 
+                                 class="rounded-circle" 
+                                 alt="Управляющий">
+                        </div>
+                        <h5 class="fw-bold mb-1">Рашид Абдуллаев</h5>
+                        <p class="text-danger small mb-3">Управляющий</p>
+                        <p class="text-muted small">Обеспечивает безупречный сервис и комфорт наших гостей</p>
+                        <div class="team-social">
+                            <a href="#" class="text-muted me-2"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="text-muted"><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section id="mission" class="mission-section py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="mission-content pe-lg-5">
+                        <h2 class="section-title fw-bold mb-4">Наша миссия</h2>
+                        <p class="lead mb-4">
+                            Создавать пространства, где каждый гость чувствует себя особенным, 
+                            где вкусные блюда и напитки сочетаются с теплой атмосферой и качественным сервисом.
+                        </p>
+                        <div class="mission-quote bg-light p-4 rounded-4">
+                            <i class="bi bi-chat-quote-fill text-danger fs-3 mb-3"></i>
+                            <p class="fst-italic mb-0">
+                                "Мы верим, что хороший кофе и вкусная еда могут сделать день лучше. 
+                                Поэтому мы делаем всё, чтобы ваше посещение стало приятным воспоминанием."
+                            </p>
+                            <div class="mt-3">
+                                <strong>— Основатель CAFE FAKH</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mission-image mt-5 mt-lg-0">
+                        <img src="https://via.placeholder.com/600x400?text=Cafe+Interior" 
+                             alt="Интерьер кафе" 
+                             class="img-fluid rounded-4 shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section py-5 bg-danger text-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h3 class="fw-bold mb-3">Хотите стать частью нашей истории?</h3>
+                    <p class="mb-0">Приходите в гости или свяжитесь с нами для сотрудничества</p>
+                </div>
+                <div class="col-lg-4 text-lg-end">
+                    <a href="{% url 'contact_name' %}" class="btn btn-light btn-lg px-4">
+                        <i class="bi bi-chat-left-text me-2"></i>Связаться с нами
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
+
+<style>
+    /* Hero Section */
+    .about-hero {
+        background: linear-gradient(135deg, rgba(220, 53, 69, 0.1) 0%, rgba(255, 107, 107, 0.05) 100%);
+        min-height: 60vh;
+        display: flex;
+        align-items: center;
+    }
+    
+    .hero-stats {
+        flex-wrap: wrap;
+    }
+    
+    .stat-item {
+        text-align: center;
+        padding: 0 1.5rem;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-top: 0.25rem;
+    }
+    
+    /* Sticky Navigation */
+    .sticky-nav {
+        background: white;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 80px;
+        z-index: 100;
+    }
+    
+    .nav-underline .nav-link {
+        color: #495057;
+        font-weight: 500;
+        padding: 1rem 1.5rem;
+        position: relative;
+    }
+    
+    .nav-underline .nav-link.active {
+        color: #dc3545;
+    }
+    
+    .nav-underline .nav-link.active::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 3px;
+        background: #dc3545;
+    }
+    
+    .nav-underline .nav-link:hover {
+        color: #dc3545;
+    }
+    
+    /* Story Section */
+    .story-image {
+        position: relative;
+    }
+    
+    .story-badge {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+    }
+    
+    .timeline {
+        position: relative;
+        padding-left: 2rem;
+    }
+    
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: #dc3545;
+        border-radius: 3px;
+    }
+    
+    .timeline-item {
+        position: relative;
+    }
+    
+    .timeline-year {
+        position: relative;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+    
+    .timeline-year::before {
+        content: '';
+        position: absolute;
+        left: -2.3rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 12px;
+        height: 12px;
+        background: #dc3545;
+        border-radius: 50%;
+        border: 3px solid white;
+        box-shadow: 0 0 0 3px #dc3545;
+    }
+    
+    /* Values Section */
+    .value-card {
+        background: white;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+    }
+    
+    .value-card:hover {
+        transform: translateY(-10px);
+        border-color: #dc3545;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .value-icon {
+        transition: transform 0.3s ease;
+    }
+    
+    .value-card:hover .value-icon {
+        transform: scale(1.2);
+    }
+    
+    /* Locations Section */
+    .location-card {
+        transition: all 0.3s ease;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+    
+    .location-card:hover {
+        transform: translateY(-10px);
+    }
+    
+    .location-image {
+        height: 250px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .location-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .location-card:hover .location-image img {
+        transform: scale(1.1);
+    }
+    
+    .location-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+    
+    .rating {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    /* Team Section */
+    .team-card {
+        background: white;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+    
+    .team-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .team-avatar {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+        overflow: hidden;
+        border: 3px solid #dc3545;
+        transition: transform 0.3s ease;
+    }
+    
+    .team-card:hover .team-avatar {
+        transform: scale(1.1);
+    }
+    
+    .team-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    /* Mission Section */
+    .mission-quote {
+        border-left: 4px solid #dc3545;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    }
+    
+    /* Section Title */
+    .section-title {
+        position: relative;
+        padding-bottom: 15px;
+    }
+    
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: #dc3545;
+    }
+    
+    .text-center .section-title::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .about-hero .display-3 {
+            font-size: 2.5rem;
+        }
+        
+        .hero-stats {
+            gap: 3rem;
+        }
+        
+        .story-content {
+            padding-left: 0 !important;
+            margin-top: 3rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .about-hero .display-3 {
+            font-size: 2rem;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+        }
+        
+        .nav-underline .nav-link {
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .location-image {
+            height: 200px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .hero-stats {
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .timeline {
+            padding-left: 1.5rem;
+        }
+        
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Smooth scroll for navigation
+        document.querySelectorAll('.nav-underline .nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                document.querySelectorAll('.nav-underline .nav-link').forEach(l => {
+                    l.classList.remove('active');
+                });
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Scroll to section
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    const offset = 100;
+                    const targetPosition = targetSection.offsetTop - offset;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Update active nav link on scroll
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-underline .nav-link');
+        
+        window.addEventListener('scroll', function() {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (scrollY >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Animate cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe animated elements
+        document.querySelectorAll('.value-card, .location-card, .team-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+        
+        // Location cards interaction
+        document.querySelectorAll('.location-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                const badge = this.querySelector('.location-badge');
+                if (badge) {
+                    badge.style.transform = 'scale(1.1)';
+                }
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                const badge = this.querySelector('.location-badge');
+                if (badge) {
+                    badge.style.transform = 'scale(1)';
+                }
+            });
+        });
+    });
+</script>
 {% endblock main %}

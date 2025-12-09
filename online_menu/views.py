@@ -102,3 +102,30 @@ def order_page(request):
 def detail_dish(request, dish_id):
     dish = Dish.objects.get(id=dish_id)
     return render(request, 'dish_detail.html', {'dish': dish})
+
+def add_dish(request):
+    if request.method == 'POST':
+        dish_name = request.POST.get('dish_name')  # исправлено
+        description = request.POST.get('description')
+        price = request.POST.get('price')
+        category = request.POST.get('category')
+        image = request.FILES.get('image')
+
+        if not dish_name or not description or not price or not category:
+            return HttpResponse('All fields are required!')
+
+        Dish.objects.create(
+            dish_name=dish_name,  # исправлено
+            description=description,
+            price=price,
+            category=category,
+            image=image
+        )
+        return redirect('dish_list')
+    return render(request, 'add_dish.html')
+
+def dish_list(request):
+    dishes = Dish.objects.all()
+    return render(request, 'dish_list.html', {'dishes': dishes})
+
+

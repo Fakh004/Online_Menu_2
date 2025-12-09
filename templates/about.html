@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block main %}
+<div class="container y-5">
+
+
+  <nav class="nav justify-content-center mb-5" style="margin-top: 100px;">
+    <a class="nav-link text-dark fw-semibold" href="#">Главная</a>
+    <a class="nav-link text-dark fw-semibold" href="#">О нас</a>
+    <a class="nav-link text-dark fw-semibold" href="#">Услуги</a>
+    <a class="nav-link text-dark fw-semibold" href="#">Контакты</a>
+  </nav>
+
+  <section class="about-section row align-items-center my-5">
+    <div class="col-md-6 mb-4 mb-md-0">
+      <h2 class="fw-bold mb-3">Кто мы?</h2>
+      <p class="text-muted fs-5">
+        В нашем кафе вы можете насладиться спокойным отдыхом в компании друзей или работой с ноутбуком и бесплатным Wi-Fi. 
+        Интерьер сочетает в себе современный дизайн и уютную атмосферу, куда хочется возвращаться снова.
+      </p>
+      <p class="text-muted fs-5">
+        Мы верим, что каждое блюдо уникально, поэтому подходим к приготовлению с любовью и вниманием. 
+        Надёжность, качество и креатив — наши приоритеты.
+      </p>
+    </div>
+
+    <div class="col-md-6 text-center">
+      <img src="https://avatars.mds.yandex.net/i?id=aca33442c57d8d6bba9721c579070c56b1f9e743-4386106-images-thumbs&n=13" alt="Наша команда" class="img-fluid rounded shadow-lg">
+    </div>
+  </section>
+
+  <section class="team-section text-center my-5">
+    <h2 class="fw-bold mb-4">Наши места</h2>
+    <div class="row justify-content-center g-4">
+
+      <div class="col-md-4 col-sm-6">
+        <div class="card border-0 shadow-sm h-100">
+          <img src="https://avatars.mds.yandex.net/i?id=7a5390079c262970215b465d0bca2b88a7ffcaed-13308934-images-thumbs&n=13" alt="Айрапорт" class="card-img-top" style="height: 250px; object-fit: cover;">
+          <div class="card-body">
+            <h5 class="fw-bold">Аeйрапорт</h5>
+            <p class="text-muted">Уютная локация рядом с аэропортом — идеальна для ожидания рейса ☕</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6">
+        <div class="card border-0 shadow-sm h-100">
+          <img src="https://avatars.mds.yandex.net/i?id=e6b2cd5d5abbed58011bdaa07aae7eb714b84f51bd9646c7-11845750-images-thumbs&n=13" alt="Profsayuz" class="card-img-top" style="height: 250px; object-fit: cover;">
+          <div class="card-body">
+            <h5 class="fw-bold">Profsayuz</h5>
+            <p class="text-muted">Современное пространство для встреч и работы 💻</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6">
+        <div class="card border-0 shadow-sm h-100">
+          <img src="https://avatars.mds.yandex.net/i?id=cbd2dc2d22c2db7dd6d1469bff3c6dc17a79fc9a-5341800-images-thumbs&n=13" alt="Микрорайон 82" class="card-img-top" style="height: 250px; object-fit: cover;">
+          <div class="card-body">
+            <h5 class="fw-bold">Микрорайон 82</h5>
+            <p class="text-muted">Тихое место для уютных посиделок и вкусного кофе ☕</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+{% endblock main %}

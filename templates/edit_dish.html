@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}
+    Edit Dish - {{ dish.name }}
+{% endblock title %}
+{% block main %}
+    <h1>Edit Dish - {{ dish.dish_name }}</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="dish_name" class="form-label">Dish Name</label>
+            <input type="text" class="form-control" id="dish_name" name="dish_name" value="{{ dish.dish_name }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3" required>{{ dish.description }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" class="form-control" id="price" name="price" value="{{ dish.price }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Image</label>
+            <input type="file" class="form-control" id="image" name="image">
+            {% if dish.image %}
+                <img src="{{ dish.image.url }}" alt="{{ dish.dish_name }}" class="img-thumbnail mt-2" style="max-width: 200px;">
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+{% endblock main %} 

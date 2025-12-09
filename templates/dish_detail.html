@@ -221,13 +221,10 @@
                             Добавить в корзину
                         </button>
                         <button class="btn btn-outline-danger btn-lg py-3" id="order-now-btn">
-                            <i class="bi bi-lightning-charge me-2"></i>
-                            Заказать сейчас
+                            <a href="{% url 'dish_edit' dish.id %}">edit</a>
                         </button>
                         <button class="btn btn-outline-dark btn-lg py-3" id="save-for-later-btn">
-                            <i class="bi bi-bookmark me-2"></i>
-                            Сохранить на потом
-                        </button>
+                            <a href="{% url 'dish_delete' dish.id %}">Delete</a>
                     </div>
                 </div>
 

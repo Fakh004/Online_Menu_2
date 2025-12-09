@@ -5,8 +5,6 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
-# Create your views here.
-
 
 def home_page(request):
     # select * from tasks
@@ -105,7 +103,7 @@ def detail_dish(request, dish_id):
 
 def add_dish(request):
     if request.method == 'POST':
-        dish_name = request.POST.get('dish_name')  # исправлено
+        dish_name = request.POST.get('dish_name')  
         description = request.POST.get('description')
         price = request.POST.get('price')
         category = request.POST.get('category')
@@ -115,7 +113,7 @@ def add_dish(request):
             return HttpResponse('All fields are required!')
 
         Dish.objects.create(
-            dish_name=dish_name,  # исправлено
+            dish_name=dish_name,  
             description=description,
             price=price,
             category=category,

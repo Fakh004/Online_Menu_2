@@ -83,7 +83,6 @@
             </div>
         </div>
 
-        <!-- Dish Details Section -->
         <div class="col-lg-5">
             <div class="dish-details-card p-4 rounded-4 shadow-sm h-100">
                 <!-- Category Badge -->
@@ -104,10 +103,8 @@
                     </span>
                 </div>
 
-                <!-- Dish Name -->
                 <h1 class="dish-title mb-4">{{ dish.dish_name }}</h1>
                 
-                <!-- Rating -->
                 <div class="rating-section mb-4">
                     <div class="d-flex align-items-center">
                         <div class="stars me-2">
@@ -123,7 +120,6 @@
                     </div>
                 </div>
 
-                <!-- Description -->
                 <div class="description-section mb-5">
                     <h5 class="section-title mb-3">
                         <i class="bi bi-card-text me-2"></i>Описание
@@ -133,7 +129,6 @@
                     </p>
                 </div>
 
-                <!-- Ingredients -->
                 {% if dish.ingredients %}
                 <div class="ingredients-section mb-5">
                     <h5 class="section-title mb-3">
@@ -154,7 +149,6 @@
                 </div>
                 {% endif %}
 
-                <!-- Nutritional Info -->
                 <div class="nutrition-section mb-5">
                     <h5 class="section-title mb-3">
                         <i class="bi bi-basket me-2"></i>Пищевая ценность
@@ -187,8 +181,7 @@
                     </div>
                 </div>
 
-                <!-- Price & Order Section -->
-                <div class="order-section p-4 bg-light rounded-4">
+                < class="order-section p-4 bg-light rounded-4">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <div>
                             <div class="text-muted small">Цена</div>
@@ -214,21 +207,44 @@
                         </div>
                     </div>
 
-                    <!-- Action Buttons -->
                     <div class="d-grid gap-3">
-                        <button class="btn btn-danger btn-lg py-3" id="add-to-cart-btn">
-                            <i class="bi bi-cart-plus me-2"></i>
-                            Добавить в корзину
-                        </button>
-                        <button class="btn btn-outline-danger btn-lg py-3" id="order-now-btn">
-                            <a href="{% url 'dish_edit' dish.id %}">edit</a>
-                        </button>
-                        <button class="btn btn-outline-dark btn-lg py-3" id="save-for-later-btn">
-                            <a href="{% url 'dish_delete' dish.id %}">Delete</a>
-                    </div>
-                </div>
 
-                <!-- Additional Info -->
+    <!-- Add to Cart -->
+    <button class="btn btn-danger btn-lg py-3 d-flex align-items-center justify-content-center" id="add-to-cart-btn">
+        <i class="bi bi-cart-plus me-2 fs-4"></i>
+        <span class="fw-semibold">Добавить в корзину</span>
+    </button>
+
+    <!-- Edit -->
+    <a href="{% url 'dish_edit' dish.id %}" class="btn  btn-lg py-3 fw-semibold" style="background-color: orange; ">
+        <i class="bi bi-pencil-square me-2"></i>
+        Редактировать
+    </a>
+
+    <!-- Delete -->
+    <a href="{% url 'dish_delete' dish.id %}" class="btn btn-outline-danger btn-lg py-3 fw-semibold">
+        <i class="bi bi-trash me-2"></i>
+        Удалить
+    </a>
+
+</div>
+<style>
+    #add-to-cart-btn {
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+        transition: 0.25s ease;
+    }
+    #add-to-cart-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(220, 53, 69, 0.6);
+    }
+    .btn-outline-danger:hover,
+    .btn-outline-dark:hover {
+        transform: translateY(-2px);
+        transition: 0.25s ease;
+    }
+</style>
+
+
                 <div class="additional-info mt-4">
                     <div class="row g-2">
                         <div class="col-6">

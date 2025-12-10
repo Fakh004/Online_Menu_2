@@ -43,7 +43,6 @@
         </div>
     </section>
 
-    <!-- Stats Section -->
     <section class="stats-section py-4 bg-light">
         <div class="container">
             <div class="row text-center">
@@ -75,7 +74,6 @@
         </div>
     </section>
 
-    <!-- Menu Section -->
     <section id="menu" class="menu-section py-5">
         <div class="container">
             <div class="text-center mb-5">
@@ -115,14 +113,11 @@
     {% for dish in dishes %}
     <div class="col-xl-3 col-lg-4 col-md-6">
         <div class="dish-card-container">
-            <!-- Main Card -->
             <div class="card dish-card h-100 border-0 shadow-lg">
-                <!-- Image Section with Overlay Effects -->
                 <div class="card-img-wrapper">
                     {% if dish.image %}
                         <img src="{{ dish.image.url }}" class="card-img-top dish-image" 
                              alt="{{ dish.dish_name }}">
-                        <!-- Image Overlay Gradient -->
                         <div class="image-gradient-overlay"></div>
                     {% else %}
                         <div class="no-image-placeholder">
@@ -134,7 +129,6 @@
                         </div>
                     {% endif %}
                     
-                    <!-- Floating Badges -->
                     <div class="floating-badges">
                         {% if dish.is_popular %}
                         <span class="badge bg-danger floating-badge pulse-animation">
@@ -155,7 +149,6 @@
                         {% endif %}
                     </div>
                     
-                    <!-- Quick Action Buttons -->
                     <div class="quick-action-buttons">
                         <button class="btn btn-light quick-action-btn heartbeat">
                             <i class="bi bi-eye-fill"></i>
@@ -168,9 +161,7 @@
                     </div>
                 </div>
                 
-                <!-- Card Body with Enhanced Design -->
                 <div class="card-body">
-                    <!-- Category Indicator -->
                     <div class="category-indicator mb-2">
                         <span class="category-tag">
                             {% if dish.category == 'starter' %}
@@ -185,12 +176,10 @@
                         </span>
                     </div>
                     
-                    <!-- Dish Name with Hover Effect -->
                     <h5 class="card-title fw-bold mb-2 gradient-text">
                         {{ dish.dish_name }}
                     </h5>
                     
-                    <!-- Price Badge with Animation -->
                     <div class="price-container mb-3">
                         <span class="price-badge">
                             <span class="currency">TJS</span>
@@ -201,7 +190,6 @@
                         </span>
                     </div>
                     
-                    <!-- Description with Read More -->
                     <p class="card-text text-muted small mb-3 description-text" 
                        data-full-text="{{ dish.description }}">
                         {{ dish.description|truncatechars:80 }}
@@ -210,7 +198,6 @@
                         {% endif %}
                     </p>
                     
-                    <!-- Rating Stars -->
                     <div class="rating-stars mb-3">
                         {% with rating=dish.rating|default:4.5 %}
                             {% for i in "12345" %}
@@ -226,7 +213,6 @@
                         {% endwith %}
                     </div>
                     
-                    <!-- Preparation Time & Spice Level -->
                     <div class="dish-meta mb-3">
                         <div class="meta-item">
                             <i class="bi bi-clock text-primary"></i>
@@ -240,7 +226,6 @@
                         {% endif %}
                     </div>
                     
-                    <!-- Action Buttons with Hover Effects -->
                     <div class="action-buttons">
                         <button class="btn btn-danger add-to-cart-btn glitch-effect" 
                                 data-dish-id="{{ dish.id }}"
@@ -258,7 +243,6 @@
                         </a>
                     </div>
                     
-                    <!-- Additional Info (Appears on Hover) -->
                     <div class="additional-info">
                         <div class="info-grid">
                             <div class="info-item">
@@ -275,10 +259,8 @@
                     </div>
                 </div>
                 
-                <!-- Floating Add Button (Mobile) -->
             </div>
             
-            <!-- Glow Effect -->
             <div class="card-glow"></div>
         </div>
     </div>
@@ -286,14 +268,12 @@
 </div>
 
 <style>
-    /* Card Container */
     .dish-card-container {
         position: relative;
         perspective: 1000px;
         margin-bottom: 2rem;
     }
     
-    /* Main Card */
     .dish-card {
         border-radius: 20px;
         overflow: hidden;
@@ -311,7 +291,6 @@
         border-color: #ff6b6b;
     }
     
-    /* Glow Effect */
     .card-glow {
         position: absolute;
         top: 0;
@@ -329,7 +308,6 @@
         opacity: 1;
     }
     
-    /* Image Section */
     .card-img-wrapper {
         height: 240px;
         position: relative;

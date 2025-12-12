@@ -236,29 +236,278 @@
 <body>
     <header>
         <div class="header-container">
-            <div class="logo-title">
-                <div class="logo-icon">
-                    <i class="bi bi-egg-fried"></i>
+            <div class="logo-title d-flex align-items-center gap-4">
+    <!-- Logo Icon with Animation -->
+    <div class="logo-icon position-relative">
+        <div class="logo-bg bg-gradient-primary rounded-circle p-3 shadow-lg">
+            <i class="bi bi-egg-fried fs-2 text-white"></i>
+        </div>
+        <div class="logo-pulse position-absolute top-0 start-0 w-100 h-100 rounded-circle bg-primary bg-opacity-25"></div>
+    </div>
+    
+    <!-- Title and User Info -->
+    <div class="d-flex flex-column">
+        <!-- Main Title -->
+        <h1 class="h3 mb-2 fw-bold text-dark">
+            Welcome to <span class="text-primary gradient-text">Online Menu</span>
+        </h1>
+        
+        <!-- User Status Badge -->
+        <div class="user-status-container">
+            {% if user.is_authenticated %}
+                <!-- Logged In User -->
+                <div class="d-flex align-items-center gap-3">
+                    <!-- User Badge -->
+                    <div class="user-badge d-inline-flex align-items-center gap-2 bg-success bg-opacity-10 text-success rounded-pill px-3 py-1">
+                        <i class="bi bi-person-check-fill"></i>
+                        <span class="fw-medium">{{ user.username|truncatechars:20 }}</span>
+                        <small class="text-success ms-1">
+                            <i class="bi bi-dot"></i> Active
+                        </small>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="btn-group btn-group-sm" role="group">
+                        <a href="#" 
+                           class="btn btn-outline-secondary d-flex align-items-center gap-1">
+                            <i class="bi bi-gear"></i>
+                        </a>
+                        <a href="{% url 'logout' %}" 
+                           class="btn btn-outline-danger d-flex align-items-center gap-1">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span class="d-none d-sm-inline">Logout</span>
+                        </a>
+                    </div>
                 </div>
-                <h1>Welcome to <span>Online Menu</span></h1>
+            {% else %}
+                <!-- Guest User -->
+                <div class="d-flex align-items-center gap-3">
+                    <!-- Guest Badge -->
+                    <div class="user-badge d-inline-flex align-items-center gap-2 bg-warning bg-opacity-10 text-warning rounded-pill px-3 py-1">
+                        <i class="bi bi-person"></i>
+                        <span class="fw-medium">Guest User</span>
+                        <small class="text-warning ms-1">
+                            <i class="bi bi-dot"></i> Not logged in
+                        </small>
+                    </div>
+                    
+                    <!-- Auth Buttons -->
+                    <div class="btn-group btn-group-sm" role="group">
+                        <a href="{% url 'register' %}" 
+                           class="btn btn-outline-primary d-flex align-items-center gap-1 {% if request.resolver_match.url_name == 'register' %}active{% endif %}">
+                            <i class="bi bi-person-plus"></i>
+                            <span class="d-none d-sm-inline">Register</span>
+                        </a>
+                        <a href="{% url 'login' %}" 
+                           class="btn btn-primary d-flex align-items-center gap-1">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                            <span class="d-none d-sm-inline">Login</span>
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- Optional: User Stats (for logged in users) -->
+        {% if user.is_authenticated %}
+        <div class="user-stats mt-2">
+            <div class="d-flex gap-4">
+                <small class="text-muted">
+                    <i class="bi bi-calendar me-1"></i>
+                    Joined: {{ user.date_joined|date:"M Y" }}
+                </small>
+                <small class="text-muted">
+                    <i class="bi bi-clock me-1"></i>
+                    Last login: Recently
+                </small>
             </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    /* Logo Icon Styles */
+    .logo-icon {
+        position: relative;
+        display: inline-block;
+    }
+    
+    .logo-bg {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        position: relative;
+        z-index: 2;
+        transition: transform 0.3s ease;
+    }
+    
+    .logo-icon:hover .logo-bg {
+        transform: scale(1.1) rotate(10deg);
+    }
+    
+    .logo-pulse {
+        z-index: 1;
+        animation: pulse 2s infinite;
+    }
+    
+    /* Gradient Text Effect */
+    .gradient-text {
+        background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 800;
+    }
+    
+    /* User Badge Styles */
+    .user-badge {
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+    }
+    
+    .user-badge:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    /* Button Group Styles */
+    .btn-group .btn {
+        border-radius: 20px !important;
+        padding: 0.25rem 0.75rem;
+    }
+    
+    .btn-group .btn:first-child {
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+    
+    .btn-group .btn:last-child {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        border-left: none;
+    }
+    
+    /* Animations */
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+            opacity: 0.5;
+        }
+        50% {
+            transform: scale(1.2);
+            opacity: 0;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 0.5;
+        }
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .logo-title {
+            gap: 15px;
+        }
+        
+        .logo-bg {
+            padding: 0.75rem !important;
+        }
+        
+        .logo-bg i {
+            font-size: 1.5rem !important;
+        }
+        
+        h1 {
+            font-size: 1.25rem !important;
+        }
+        
+        .user-badge {
+            font-size: 0.85rem;
+            padding: 0.25rem 0.75rem;
+        }
+        
+        .btn-group .btn span {
+            font-size: 0.75rem;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .logo-title {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            align-self: center;
+        }
+        
+        .d-flex.gap-3 {
+            flex-wrap: wrap;
+            gap: 10px !important;
+        }
+        
+        .user-badge {
+            order: 1;
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .btn-group {
+            order: 2;
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+
+<script>
+    // Optional: Add hover effects and animations
+    document.addEventListener('DOMContentLoaded', function() {
+        const logoIcon = document.querySelector('.logo-icon');
+        const userBadge = document.querySelector('.user-badge');
+        
+        if (logoIcon) {
+            logoIcon.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05)';
+            });
             
-            <nav>
-                <ul>
-                    <li><a href="{% url 'home_name' %}" class="{% if request.resolver_match.url_name == 'home_name' %}active{% endif %}">
-                        <i class="bi bi-house-door"></i> Home
-                    </a></li>
-                    <li><a href="{% url 'about_name' %}" class="{% if request.resolver_match.url_name == 'about_name' %}active{% endif %}">
-                        <i class="bi bi-info-circle"></i> About
-                    </a></li>
-                    <li><a href="{% url 'contact_name'%}" class="{% if request.resolver_match.url_name == 'contact_name' %}active{% endif %}">
-                        <i class="bi bi-envelope"></i> Contact
-                    </a></li>
-                    <li><a href="{% url 'add_dish' %}" class="{% if request.resolver_match.url_name == 'add_dish' %}active{% endif %}">
-                        <i class="bi bi-plus-circle"></i> Add Dish
-                    </a></li>
-                </ul>
-            </nav>
+            logoIcon.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        }
+        
+        if (userBadge) {
+            userBadge.addEventListener('mouseenter', function() {
+                this.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+            });
+            
+            userBadge.addEventListener('mouseleave', function() {
+                this.style.boxShadow = 'none';
+            });
+        }
+    });
+</script>
+            
+           <nav>
+    <ul>
+        <li><a href="{% url 'home_name' %}" class="{% if request.resolver_match.url_name == 'home_name' %}active{% endif %}">
+            <i class="bi bi-house-door"></i> Home
+        </a></li>
+
+        <li><a href="{% url 'about_name' %}" class="{% if request.resolver_match.url_name == 'about_name' %}active{% endif %}">
+            <i class="bi bi-info-circle"></i> About
+        </a></li>
+
+        <li><a href="{% url 'contact_name' %}" class="{% if request.resolver_match.url_name == 'contact_name' %}active{% endif %}">
+            <i class="bi bi-envelope"></i> Contact
+        </a></li>
+
+        <li><a href="{% url 'add_dish' %}" class="{% if request.resolver_match.url_name == 'add_dish' %}active{% endif %}">
+            <i class="bi bi-plus-circle"></i> Add Dish
+        </a></li>
+    </ul>
+</nav>
+
         </div>
     </header>
     

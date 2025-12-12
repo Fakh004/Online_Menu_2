@@ -11,7 +11,7 @@
   <div class="card shadow-lg p-4" style="width: 400px; border: none;">
     <h3 class="text-center mb-4 text-primary fw-bold">Регистрация</h3>
 
-    <form method="post" action="{% url 'register_name' %}">
+    <form method="post" action="{% url 'register' %}">
       {% csrf_token %}
 
       <div class="mb-3">

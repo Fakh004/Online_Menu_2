@@ -16,6 +16,8 @@ def about_page(request):
     return render(request, 'about.html')
 
 def contact_page(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         sender_name = request.POST.get('sender_name')
         sender_email = request.POST.get('sender_email')
@@ -33,53 +35,6 @@ def contact_page(request):
             messages.error(request, 'Пожалуйста, заполните все поля.')
 
     return render(request, 'contact.html')
-
-def register_view(request):
-    if request.method == 'GET':
-        return render(request, 'register.html')
-    elif request.method == 'POST':
-        name = request.POST.get('name')
-        surname = request.POST.get('surname')
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        confirmPassword = request.POST.get('confirmPassword')
-
-        if not username or not email or not password or not confirmPassword:
-                return HttpResponse('ALL FIELDS ARE REQUIRED !!!')
-    
-        if password != confirmPassword:
-                return HttpResponse("Passwords don't match!")
-    
-        if User.objects.filter(username=username).exists():
-                return HttpResponse("Username already taken!")
-    
-        user = User.objects.create_user(
-                username=username,
-                email=email,
-                password=password,
-                first_name=name,
-                last_name=surname
-            )
-        return redirect ('login')
-
-def login_view(request):
-    if request.method == 'GET':
-        return render (request, 'login.html')
-    
-    elif request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect ('home_name')
-        else:
-            return HttpResponse('Invalid username or password')
-
-def logout_view(request):
-    logout(request)
-    return redirect('login')
 
 
 def order_page(request):
@@ -102,6 +57,8 @@ def detail_dish(request, dish_id):
     return render(request, 'dish_detail.html', {'dish': dish})
 
 def add_dish(request):
+    if not request.user.is_authenticated:
+        return render(request, 'message.html')
     if request.method == 'POST':
         dish_name = request.POST.get('dish_name')  
         description = request.POST.get('description')
@@ -153,3 +110,29 @@ def dish_delete(request, dish_id):
         dish.delete()
         return redirect('dish_list')
     
+def order_view(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    orders = Order.objects.all()
+    if request.method == 'GET':
+        return render(request, 'order.html', {'orders': orders})
+    elif request.method == 'POST':
+        quantity = request.POST.get('quantity')
+        name = request.POST.get('name')
+        phone = request.POST.get('phone')
+        address = request.POST.get('address')
+
+        if not name or not quantity or not phone or not address:
+            return HttpResponse('All fields are required!')
+
+        Order.objects.create(
+            quantity=quantity,
+            name=name,
+            phone=phone,
+            address=address
+        )
+        return redirect('order_success')
+    return render(request, 'order.html', {'orders': orders})
+
+def order_success(request):
+    return render(request, 'order_success.html')
